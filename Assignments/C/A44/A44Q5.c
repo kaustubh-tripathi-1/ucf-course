@@ -1,0 +1,124 @@
+#include<stdio.h>
+#include<conio.h>
+#include<string.h>
+
+typedef struct Employee
+{
+    int id;
+    char name[40];
+    float salary;
+}Employee;
+
+void structureInput(Employee *, int);
+void displayStructure(Employee *, int);
+void removeNewLine(char *, int );
+void sortSalaries(Employee *, int);
+
+int main()
+{
+    Employee e1[10] = {
+        {101, "Kaustubh Tripathi", 220000.5}, 
+        {102, "Rashmi Tripathi", 230000.5},
+        {103, "Shyam Nandan Tripathi", 250000.5},
+        {104, "Nakshatra Gupta", 220000.5},
+        {105, "Arun Gupta", 20000.5},
+        {106, "Kushal Goyal", 22000.0},
+        {107, "Kushagra Sahu", 212000.0},
+        {108, "Thiya Sahu", 222000.0},
+        {109, "Nidhi Sahu", 230000.0},
+        {110, "Amit Sahu", 250000.0},
+};
+
+    int size = sizeof(e1)/sizeof(e1[0]);
+
+
+
+    // structureInput(e1, size);
+
+    printf("********Before Sort********\n");
+    printf("\n");
+    displayStructure(e1, size);
+
+    sortSalaries(e1, size);
+    
+    printf("********After Sort********\n");
+    printf("\n");
+    displayStructure(e1, size);
+
+    getch();
+    return 0;
+}
+
+//@ Removing New Line at the end of a String
+void removeNewLine(char *str, int len)
+{
+    if( len > 0 && str[len-1] == '\n')
+    {
+        str[len-1] = '\0';
+        (len)--;
+    }
+}
+
+//@ Taking Input for Each Employee
+void structureInput(Employee *e1, int size)
+{
+    for( int i = 0 ; i < size ; i++)
+    {
+        printf("Enter the Employee Data for Employee %d -\n", i+1);
+        printf("Enter Employee ID -\n");
+        scanf("%d", &e1[i].id);
+
+        while ( getchar() != '\n');
+
+        printf("Enter Name -\n");
+        fgets(e1[i].name, sizeof(e1[i].name), stdin);
+
+        int length = strlen(e1[i].name);
+        removeNewLine(e1[i].name, length);
+        
+        printf("Enter Employee salary -\n");
+        scanf("%f", &e1[i].salary);
+    }
+
+}
+
+//@ Print detail of each Employee
+void displayStructure(Employee *e1, int size)
+{
+    for( int i = 0 ; i < size ; i++)
+    {
+        printf("Employee %d -\n", i+1);
+        printf("Employee ID - %d\nEmployee Name - %s\nEmployee Salary - %.2f\n", e1[i].id, e1[i].name, e1[i].salary);
+        printf("\n");
+    }
+}
+
+//@ Sorting Employees based on their salaries
+void sortSalaries(Employee *e1, int size)
+{
+    int i, j;
+
+    for ( i = 0; i < size-1 ; i++)
+    {
+        for ( j = 0; j < size-i-1 ; j++)
+        {
+            if ( e1[j].salary > e1[j+1].salary )
+            {
+
+                int tempEmpID = e1[j].id;
+                e1[j].id = e1[j+1].id;
+                e1[j+1].id = tempEmpID;
+
+                char tempName[40];
+                strcpy(tempName, e1[j].name);
+                strcpy(e1[j].name, e1[j+1].name);
+                strcpy(e1[j+1].name, tempName);
+                
+                float tempSalary = e1[j].salary;
+                e1[j].salary = e1[j+1].salary;
+                e1[j+1].salary = tempSalary;
+            }
+        }
+    } 
+    
+}
