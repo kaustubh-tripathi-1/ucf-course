@@ -1,2 +1,11 @@
 #Ignore .exe Files
 *.exe
+
+#Ignore a directory
+Lectures/
+
+# Ignore rest
+PaymentSuccessful.png
+Screenshot(126).png
+UCFSaurabhShuklaCourseReceipt.pdf
+UCF.code-workspace
