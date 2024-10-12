@@ -140,7 +140,7 @@ void lowerCase(int length, char (*pstr)[length], int strings)
 int findMax(int *arr, int size)
 {
 
-    if ( size == 0)
+    if ( arr[0] == 0 )
         return -1;
     
     int max = arr[0];
