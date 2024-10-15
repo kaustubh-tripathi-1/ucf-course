@@ -40,7 +40,7 @@ int main()
 //@ Merge 2 arrays
 void mergeArrays(int *num1, int& size1, int *num2, int size2, int *mergedArray, int size3)
 {
-    
+    //$ Normal merge without checking greater or lesser values
     /* if (size1 == 0 || size2 == 0)
     {
         cout << "One of the arrays is empty. Cannot swap." << endl;
@@ -54,6 +54,9 @@ void mergeArrays(int *num1, int& size1, int *num2, int size2, int *mergedArray, 
     for ( j = 0;  j < size2; i++, j++)
         mergedArray[i] = num2[j]; */
 
+
+
+    //$ Merge with checking greater or lesser values
     int i, j, k;
 
     for ( i = 0, j = 0, k = 0 ; i < size1 && j < size2 ; k++)
