@@ -75,7 +75,7 @@ void partitionFirstValue(int *pnumbers, int size)
     while( left <= right )
     {
         //$ Move the left pointer to the right until a value larger than the pivot is found
-        while ( left <= right && pnumbers[left] < pivot)
+        while ( left <= right && pnumbers[left] < pivot )
             left++;
 
         //$ Move the right pointer to the left until a value smaller than the pivot is found

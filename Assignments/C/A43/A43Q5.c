@@ -27,6 +27,7 @@ int main()
         class4Marks,
         class5Marks
     };
+    
     int sizeOfPtrArray = sizeof(class) / sizeof(class[0]); 
     
     int highestmarks = findHighestMarks(class, sizeOfClasses, sizeOfPtrArray);
