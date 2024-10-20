@@ -12,7 +12,7 @@ typedef struct Employee
 void structureInput(Employee *, int);
 void displayStructure(Employee *, int);
 void removeNewLine(char *str, int len);
-float findHighestSalary(Employee *, int );
+Employee findHighestSalary(Employee *, int );
 
 int main()
 {
@@ -38,9 +38,9 @@ int main()
     /* printf("\n");
     displayStructure(e1, size); */
 
-    float highestSalary = findHighestSalary(e1, size);
+    Employee highestSalaryEmployee = findHighestSalary(e1, size);
 
-    printf("\nThe highest salary paid to an employee is %.2f\n", highestSalary);
+    printf("\nThe highest salary paid to an employee is %.2f\n", highestSalaryEmployee.salary);
     
     getch();
     return 0;
@@ -90,16 +90,16 @@ void displayStructure(Employee *e1, int size)
 }
 
 //@ Finding Highest Salary paid to an Employee
-float findHighestSalary(Employee *e1, int size)
+Employee findHighestSalary(Employee *e1, int size)
 {
-    float highestSalary = e1[0].salary;
+    Employee highestSalaryEmployee = e1[0];
     int i;
 
     for( i = 1 ; i < size ; i++)
     {
-        if ( highestSalary < e1[i].salary)
-            highestSalary = e1[i].salary;
+        if ( highestSalaryEmployee.salary < e1[i].salary)
+            highestSalaryEmployee = e1[i];
     }
 
-    return highestSalary;
+    return highestSalaryEmployee;
 }

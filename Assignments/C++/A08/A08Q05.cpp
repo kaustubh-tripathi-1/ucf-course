@@ -17,12 +17,12 @@ class Circle
             if( r > 0 )
             {
                 radius = r;
-                true;
+                return true;
             }
             else
             {
                 cout<<"Invalid Radius!"<<endl;;
-                false;
+                return false;
             }
         }
 
