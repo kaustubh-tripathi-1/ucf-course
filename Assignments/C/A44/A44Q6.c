@@ -12,7 +12,7 @@ typedef struct Employee
 void structureInput(Employee *, int);
 void displayStructure(Employee *, int);
 void removeNewLine(char *, int );
-void sortSalaries(Employee *, int);
+void sortEmployeeByName(Employee *, int);
 
 int main()
 {
@@ -39,7 +39,7 @@ int main()
     printf("\n");
     displayStructure(e1, size);
 
-    sortSalaries(e1, size);
+    sortEmployeeByName(e1, size);
     
     printf("********After Sort********\n");
     printf("\n");
@@ -94,11 +94,11 @@ void displayStructure(Employee *e1, int size)
 }
 
 //@ Sorting Employees based on their salaries
-void sortSalaries(Employee *e1, int size)
+void sortEmployeeByName(Employee *e1, int size)
 {
     int i, j;
 
-    //$Bubble Sort
+    //$ Bubble Sort
     for ( i = 0; i < size-1 ; i++)
     {
         for ( j = 0; j < size-i-1 ; j++)
@@ -106,7 +106,7 @@ void sortSalaries(Employee *e1, int size)
             if ( strcmp(e1[j].name, e1[j+1].name ) == 1 )
             {
 
-                int tempEmpID = e1[j].id;
+                /* int tempEmpID = e1[j].id;
                 e1[j].id = e1[j+1].id;
                 e1[j+1].id = tempEmpID;
 
@@ -117,7 +117,12 @@ void sortSalaries(Employee *e1, int size)
                 
                 float tempSalary = e1[j].salary;
                 e1[j].salary = e1[j+1].salary;
-                e1[j+1].salary = tempSalary;
+                e1[j+1].salary = tempSalary; */
+
+                //$ Directly swapping employees
+                Employee temp = e1[j];
+                e1[j] = e1[j+1];
+                e1[j+1] = temp;
             }
         }
     } 

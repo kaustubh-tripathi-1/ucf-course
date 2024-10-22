@@ -104,8 +104,9 @@ void sortSalaries(Employee *e1, int size)
         {
             if ( e1[j].salary > e1[j+1].salary )
             {
-
-                int tempEmpID = e1[j].id;
+                
+                //$ Swapping fields
+                /* int tempEmpID = e1[j].id;
                 e1[j].id = e1[j+1].id;
                 e1[j+1].id = tempEmpID;
 
@@ -116,7 +117,12 @@ void sortSalaries(Employee *e1, int size)
                 
                 float tempSalary = e1[j].salary;
                 e1[j].salary = e1[j+1].salary;
-                e1[j+1].salary = tempSalary;
+                e1[j+1].salary = tempSalary; */
+
+                //$ Directly swapping employees
+                Employee temp = e1[j];
+                e1[j] = e1[j+1];
+                e1[j+1] = temp;
             }
         }
     } 

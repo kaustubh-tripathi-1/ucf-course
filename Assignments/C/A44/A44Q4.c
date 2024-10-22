@@ -40,7 +40,7 @@ int main()
 
     Employee highestSalaryEmployee = findHighestSalary(e1, size);
 
-    printf("\nThe highest salary paid to an employee is %.2f\n", highestSalaryEmployee.salary);
+    printf("\nThe highest salaried employee is -\nID - %d\nName - %s\nSalary - %.2f\n", highestSalaryEmployee.id, highestSalaryEmployee.name ,highestSalaryEmployee.salary);
     
     getch();
     return 0;
