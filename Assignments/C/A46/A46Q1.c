@@ -5,7 +5,7 @@
 
 void validInputCheck(int *, int );
 void removeNewLine(char *, int* );
-char * createStringDMA(int ptrSizeOfString);
+char *createStringDMA(int ptrSizeOfString);
 
 int main()
 {
@@ -66,8 +66,9 @@ void removeNewLine(char *pstr, int *len)
 }
 
 //@ Creating String using DMA
-char * createStringDMA(int ptrSizeOfString)
+char *createStringDMA(int ptrSizeOfString)
 {
+    //$ Simple logic after asking the user the size of string
     char *string = NULL;
 
     string = (char *)calloc(ptrSizeOfString, sizeof(char));
@@ -85,5 +86,7 @@ char * createStringDMA(int ptrSizeOfString)
     removeNewLine(string, &length);
     
     return string;
-
+    
 }
+
+
