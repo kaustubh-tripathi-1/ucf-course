@@ -85,14 +85,15 @@ class Time
             seconds1 = this->hour*3600 + this->minute*60 + this->second;
             seconds2 = secondTime.hour*3600 + secondTime.minute*60 + secondTime.second;
 
-            /**
-            *$ Multiple if-else checks logic
+            
             if( seconds1 > seconds2 )
                 return true;
             else
                 return false;
 
-            if ( this->hour > secondTime.hour )
+                
+            //$ Multiple if-else checks logic
+            /* if ( this->hour > secondTime.hour )
                 return true;
             else if ( this->hour == secondTime.hour && this->minute > secondTime.minute)
                 return true;

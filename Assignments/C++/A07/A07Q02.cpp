@@ -1,7 +1,7 @@
 #include<iostream>
 #include <limits>
 using namespace std;
-#define PI 3.1428
+constexpr double PI = 3.1415;
 
 void validInputCheck( double &n, int allowNegative);
 double calculateVolume( double radius);

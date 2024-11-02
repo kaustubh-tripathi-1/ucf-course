@@ -79,26 +79,26 @@ class TestResult
         }
 
         //$ Sets the right and wrong weightage
-        static void setRightWeightage(int rightWeight)
+        static void setRightWeightage(int rightWeightage)
         {
-            if ( rightWeight > 0 )
-                rightWeightage = rightWeight;
+            if ( rightWeightage > 0 )
+                TestResult::rightWeightage = rightWeightage;
             else
                 cout<<"Right weightage cannot be -ve"<<endl;
         }
 
-        static void setWrongWeightage(int wrongWeight)
+        static void setWrongWeightage(int wrongWeightage)
         {
-            if ( wrongWeight > 0)
-                wrongWeightage = wrongWeight;
+            if ( wrongWeightage > 0)
+                TestResult::wrongWeightage = wrongWeightage;
             else
                 cout<<"Wrong weightage cannot be -ve"<<endl;
         }
 
         //$ Sets the total number of questions
-        static void setTotalQuestions(int questions)
+        static void setTotalQuestions(int totalQuestions)
         {
-            totalQuestions = questions;
+            TestResult::totalQuestions = totalQuestions;
         }
 
         //$ Shows result of the student

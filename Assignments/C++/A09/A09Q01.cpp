@@ -19,13 +19,13 @@ class Complex
         }
 
         //$ Sets a Complex Number at Run-time
-        /* void setData()
+        void setData()
         {
             cout<<"Enter Real part of Complex number - "<<endl;
             cin>>real;
             cout<<"Enter Imaginary part of Complex number - "<<endl;
             cin>>imaginary;
-        } */
+        }
 
         //$ Displays the Complex number
         void showData()
