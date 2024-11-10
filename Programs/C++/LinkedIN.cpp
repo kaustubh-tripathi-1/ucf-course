@@ -1,31 +1,33 @@
 #include <iostream>
 
-class Complex 
-{
-    private :
+class Student {
+    std::string name;
+    int age;
+    
+public:
+    Student(std::string n, int a) : name(n), age(a) {}
 
-        int real, imaginary;
+    // Member function using the 'this' pointer
+    void display() {
+        std::cout << "Name: " << this->name << ", Age: " << this->age << std::endl;
+    }
 
-    public:
-
-        Complex(int real, int imaginary) : real(real), imaginary(imaginary) {}
-
-        // Overloading the '+' operator
-        Complex operator+(const Complex &c) const 
-        {
-            return Complex(real + c.real, imaginary + c.imaginary);
-        }
-
-        void display() const 
-        {
-            std::cout << real <<( imaginary >= 0 ? " + " : "" )<< imaginary << "i" << std::endl;
-        }
+    // Function using an object pointer
+    void changeName(Student* s, std::string newName) {
+        s->name = newName;  // Accessing 'name' via object pointer
+    }
 };
 
-int main() 
-{
-    Complex c1(3, 4), c2(1, 2);
-    Complex result = c1 + c2; // Using overloaded '+' operator
-    result.display(); // Output: 4 + 6i
+int main() {
+    // Creating an object of the Student class
+    Student student1("John", 20);
+    
+    // Using object pointer to call changeName function
+    Student* ptr = &student1;
+    ptr->changeName(ptr, "Alice");
+
+    // Using 'this' pointer to display details
+    student1.display();
+
     return 0;
 }

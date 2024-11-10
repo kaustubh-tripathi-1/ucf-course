@@ -27,7 +27,7 @@ class Array
         :
             size(arr.size), ptr(nullptr)
         {
-            if( ptr == nullptr && this->size > 0)
+            if( this->size > 0 )
                 ptr = new int[this->size]();
 
             for ( int i = 0 ; i < this->size ; i++) 
