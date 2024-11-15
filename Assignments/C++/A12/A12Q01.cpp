@@ -50,10 +50,7 @@ class Complex
         //$ Operator Overloading to compare equality of 2 Complex objects
         bool operator==(const Complex &c) const
         {
-            if( this->real == c.real && this->imaginary == c.imaginary)
-                return true;
-            
-            return false;
+            return ((this->real == c.real) && (this->imaginary == c.imaginary));
         }
 
         /** @brief Set Complex Number */
