@@ -1,33 +1,73 @@
 #include <iostream>
+#include <string>
 
-class Student {
+class Person  
+{
+protected:
     std::string name;
-    int age;
-    
+
 public:
-    Student(std::string n, int a) : name(n), age(a) {}
+    Person(std::string n) : name(n) {}
 
-    // Member function using the 'this' pointer
-    void display() {
-        std::cout << "Name: " << this->name << ", Age: " << this->age << std::endl;
-    }
-
-    // Function using an object pointer
-    void changeName(Student* s, std::string newName) {
-        s->name = newName;  // Accessing 'name' via object pointer
+    void displayName() const
+    {
+        std::cout << "Name: " << name << "\n";
     }
 };
 
-int main() {
-    // Creating an object of the Student class
-    Student student1("John", 20);
-    
-    // Using object pointer to call changeName function
-    Student* ptr = &student1;
-    ptr->changeName(ptr, "Alice");
+class Employee : virtual public Person  
+{
+protected:
+    int employeeID;
 
-    // Using 'this' pointer to display details
-    student1.display();
+public:
+    Employee(std::string n, int id) : Person(n), employeeID(id) {}
+
+    void displayEmployeeInfo() const
+    {
+        std::cout << "Employee ID: " << employeeID << "\n";
+    }
+};
+
+class Student : virtual public Person  
+{
+protected:
+    int studentID;
+
+public:
+    Student(std::string n, int sid) : Person(n), studentID(sid) {}
+
+    void displayStudentInfo() const
+    {
+        std::cout << "Student ID: " << studentID << "\n";
+    }
+};
+
+class Intern : public Employee, public Student  
+{
+private:
+    std::string internshipRole;
+
+public:
+    Intern(std::string n, int eid, int sid, std::string role)
+        : Person(n), Employee(n, eid), Student(n, sid), internshipRole(role) {}
+
+    void displayInternInfo() const
+    {
+        displayName(); // No ambiguity due to virtual inheritance
+        displayEmployeeInfo();
+        displayStudentInfo();
+        std::cout << "Internship Role: " << internshipRole << "\n";
+    }
+};
+
+int main()
+{
+    // Create an Intern object
+    Intern intern("Alex", 101, 202, "Software Developer");
+
+    // Display Intern's details
+    intern.displayInternInfo();
 
     return 0;
 }
