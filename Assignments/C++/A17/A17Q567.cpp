@@ -126,6 +126,7 @@ class String
 
             //$ Null terminate the string
             this->ptrStr[this->length] = '\0';
+            this->length--;
         }
 
         friend std::ostream& operator<<(std::ostream &out, const String &str)
