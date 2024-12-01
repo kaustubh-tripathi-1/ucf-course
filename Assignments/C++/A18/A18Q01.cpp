@@ -11,6 +11,8 @@ class Person
 
         bool isValid;
 
+    public :
+
         //$ Setters
         void setNameAndAge(std::string name, int age)
         {
@@ -64,25 +66,24 @@ class Person
             return this->age;
         }
 
-        public :
 
-            //$ Default Param Constructor
-            Person(std::string name, int age)
-            :
-                name(name), age(age), isValid(true)
+        //$ Default Param Constructor
+        Person(std::string name, int age)
+        :
+            name(name), age(age), isValid(true)
+        {
+            if ( this->name.empty() || this->age < 0)
             {
-                if ( this->name.empty() || this->age < 0)
-                {
-                    isValid = false;
-                    this->name = "Default Name";
-                    this->age = 0;
-                    std::cout<<"Invalid Values for a Person!\n";
-                }
+                isValid = false;
+                this->name = "Default Name";
+                this->age = 0;
+                std::cout<<"Invalid Values for a Person!\n";
             }
+        }
 
-            Person( const Person &p)
-            :
-                name(p.name), age(p.age), isValid(p.isValid) {}
+        Person( const Person &p)
+        :
+            name(p.name), age(p.age), isValid(p.isValid) {}
 
 };
 

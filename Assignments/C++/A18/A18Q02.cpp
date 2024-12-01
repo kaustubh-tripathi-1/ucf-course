@@ -42,7 +42,7 @@ class Circle
             return radius;
         }
 
-        double getArea() const
+        virtual double getArea() const
         {
             return PI * radius * radius;
         }

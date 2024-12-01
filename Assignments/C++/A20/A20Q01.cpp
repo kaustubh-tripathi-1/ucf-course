@@ -2,7 +2,7 @@
 
 class A
 {
-    protected :
+    private :
 
         int num1, num2;
 
