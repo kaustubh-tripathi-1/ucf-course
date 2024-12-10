@@ -212,6 +212,19 @@ class Array
             return *this;
         }
 
+        //$ Overloaded [] Subscript op.
+        const int& Array::operator[](size_t index) const
+        {
+            isArrayCreated();
+
+            checkArrayIndexExceptions(index);
+
+            if ( index > lastFilledIndex )
+                throw InvalidIndexException();
+            
+            return arr[index];
+        }
+
         //$ Getters
         size_t getCapacity() const
         {

@@ -149,6 +149,9 @@ class Array
         //$ Overloaded Assignment Op.
         Array& operator=(const Array &array);
 
+        //$ Overloaded [] Subscript op.
+        const int& Array::operator[](size_t index) const;
+
         //$ Getters
         size_t getCapacity() const;
 
@@ -218,8 +221,6 @@ void Array::isArrayCreated() const
 //$ Double the array capacity
 void Array::extendCapacity()
 {
-    isArrayCreated();
-
     int *newArr = new int[capacity*2];
 
     for ( size_t i = 0 ; i <= lastFilledIndex ; i++)
@@ -235,8 +236,6 @@ void Array::extendCapacity()
 //$ Decrease the array capacity by half
 void Array::decreaseCapacity()
 {
-    isArrayCreated();
-
     int *newArr = new int[capacity/2];
 
     for ( size_t i = 0 ; i <= lastFilledIndex ; i++)
@@ -269,18 +268,14 @@ Array::Array(size_t size)
     arr = new int[capacity];            
 }
 
-//$ Copy Constructor
+//$ Deep Copy Constructor
 Array::Array(const Array &array)
 :   capacity(array.capacity), lastFilledIndex(array.lastFilledIndex)
 {
     if ( array.arr == nullptr )    
     {
+        this->arr = nullptr;
         throw AssignerArrayNotCreatedException();
-    }
-    
-    if ( arr != nullptr)
-    {
-        delete[] arr;
     }
 
     this->arr = new int[capacity];
@@ -304,7 +299,8 @@ Array& Array::operator=(const Array &array)
     {
         return *this;
     }
-    if ( arr != nullptr)
+
+    if ( arr != nullptr )
     {
         delete[] this->arr;
         this->arr = nullptr;
@@ -321,6 +317,19 @@ Array& Array::operator=(const Array &array)
     }
 
     return *this;
+}
+
+//$ Overloaded [] Subscript op.
+const int& Array::operator[](size_t index) const
+{
+    isArrayCreated();
+
+    checkArrayIndexExceptions(index);
+
+    if ( index > lastFilledIndex )
+        throw InvalidIndexException();
+    
+    return arr[index];
 }
 
 //$ Destructor
@@ -349,11 +358,16 @@ void Array::createArray(size_t size)
         throw NegativeSizeException();
     }
     
-    arr = nullptr;
+    if ( arr != nullptr )
+    {
+        delete []arr;
+        arr = nullptr;
+    }
+
     capacity = size;
     lastFilledIndex = SIZE_MAX;
 
-    arr = new int[capacity]();
+    arr = new int[capacity];
 }
 
 //$ Check for an empty array
@@ -377,7 +391,7 @@ Array& Array::appendElement(int element)
 {
     isArrayCreated();
 
-    if( lastFilledIndex+1 == capacity )
+    if( isFull() )
     {
         extendCapacity();
     }
@@ -471,11 +485,6 @@ Array& Array::deleteElementAtIndex(size_t index)
         throw UnderflowException();
     }
 
-    if ( lastFilledIndex + 1 == capacity/2 )
-    {
-        decreaseCapacity();
-    }
-
     if (index == lastFilledIndex) 
     {
         //& No need to shift elements; just decrement lastFilledIndex
@@ -490,6 +499,10 @@ Array& Array::deleteElementAtIndex(size_t index)
         lastFilledIndex--;
     }
 
+    if ( lastFilledIndex > 0 && lastFilledIndex + 1 == capacity/2 )
+    {
+        decreaseCapacity();
+    }
 
     return *this;
 }
