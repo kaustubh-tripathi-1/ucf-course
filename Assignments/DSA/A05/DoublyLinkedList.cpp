@@ -20,7 +20,7 @@ class DoublyLinkedListExceptions : public std::exception
         }
 };
 
-//@ Singly Linked List Specific Exception Child Classes
+//@ Doubly Linked List Specific Exception Child Classes
 
 class NodeNotFoundException : public DoublyLinkedListExceptions
 {
