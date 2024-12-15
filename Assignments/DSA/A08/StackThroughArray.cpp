@@ -450,14 +450,7 @@ int main()
 
         //$ Test 5: Push until stack overflows
         std::cout << "\nTest 5: Pushing until stack overflows...\n";
-        try
-        {
-            stack.push(1);
-        }
-        catch (const StackOverflowException &e)
-        {
-            std::cerr << "Caught specific exception: " << e.what() << "\n";
-        }
+        stack.push(1);
 
         //$ Test 6: Pop from an empty stack (should throw exception)
         std::cout << "\nTest 6: Popping until the stack is empty...\n";
