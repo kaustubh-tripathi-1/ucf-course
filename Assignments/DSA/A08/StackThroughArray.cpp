@@ -139,7 +139,7 @@ Stack::Stack(const Stack &s)
     if ( s.stack == nullptr )
     {
         this->stack = nullptr;
-        throw EmptyStackException();
+        return;
     }
 
     this->stack = new int[capacity];
