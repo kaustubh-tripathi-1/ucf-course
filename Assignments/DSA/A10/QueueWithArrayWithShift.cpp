@@ -96,7 +96,7 @@ class Queue
 
         //@ Inefficient as shifting is involved, Time Comp. is O(n)
         //$ Inserts an element at the rear in queue
-        Queue& insertAtRear(int data);
+        Queue& enqueue(int data);
 
         //$ Returns the rear element in queue
         int getRear() const;
@@ -105,7 +105,7 @@ class Queue
         int getFront() const;
 
         //$ Delete the front element from the queue
-        Queue& deleteFront();
+        Queue& dequeue();
 
         //$ Checks queue Overflow
         bool isQueueOverflow() const;
@@ -169,7 +169,7 @@ Queue::~Queue()
 }
 
 //$ Inserts an element at the rear in queue
-Queue& Queue::insertAtRear(int data)
+Queue& Queue::enqueue(int data)
 {
     if ( queuePtr == nullptr )
         throw QueueNotCreatedException("insertion at rear");
@@ -215,7 +215,7 @@ int Queue::getFront() const
 }
 
 //$ Delete the front element from the queue
-Queue& Queue::deleteFront()
+Queue& Queue::dequeue()
 {
     if ( queuePtr == nullptr )
         throw QueueNotCreatedException("view rear element");

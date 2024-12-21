@@ -80,7 +80,7 @@ class QueueLL
         ~QueueLL();
 
         //$ Inserts an element at the rear in the queue
-        QueueLL& insertAtRear(int data);
+        QueueLL& enqueue(int data);
 
         //$ Returns the rear element
         int getRear();
@@ -89,7 +89,7 @@ class QueueLL
         int getFront();
 
         //$ Deletes an element from the front in the queue
-        QueueLL& deleteFromFront();
+        QueueLL& dequeue();
 
         //$ Returns the element count in the queue
         int getElementCount();
@@ -172,12 +172,12 @@ QueueLL::~QueueLL()
 {
     while ( front != nullptr )
     {
-        deleteFromFront();
+        dequeue();
     }
 }
 
 //$ Inserts an element at the rear in the queue
-QueueLL& QueueLL::insertAtRear(int data)
+QueueLL& QueueLL::enqueue(int data)
 {
     Node *newNode = new Node(data);
 
@@ -212,7 +212,7 @@ int QueueLL::getFront()
 }
 
 //$ Deletes an element from the front in the queue
-QueueLL& QueueLL::deleteFromFront()
+QueueLL& QueueLL::dequeue()
 {
     if ( front == nullptr && rear == nullptr )
         throw QueueUnderflowException();
@@ -263,21 +263,21 @@ int main()
 
         //$ Test 2: Insert elements into the queue
         std::cout << "\nTest 2: Inserting elements into the queue...\n";
-        q.insertAtRear(10).insertAtRear(20).insertAtRear(30).insertAtRear(40);
+        q.enqueue(10).enqueue(20).enqueue(30).enqueue(40);
         std::cout << "Inserted 10, 20, 30, and 40 into the queue.\n";
         std::cout << "Front element: " << q.getFront() << "\n";
         std::cout << "Rear element: " << q.getRear() << "\n";
 
         //$ Test 3: Delete elements and check front and rear
         std::cout << "\nTest 3: Deleting elements from the queue...\n";
-        q.deleteFromFront();
+        q.dequeue();
         std::cout << "Deleted one element. New front: " << q.getFront() << "\n";
-        q.deleteFromFront();
+        q.dequeue();
         std::cout << "Deleted another element. New front: " << q.getFront() << "\n";
 
         //$ Test 4: Insert more elements
         std::cout << "\nTest 4: Inserting more elements into the queue...\n";
-        q.insertAtRear(50).insertAtRear(60);
+        q.enqueue(50).enqueue(60);
         std::cout << "Inserted 50 and 60.\n";
         std::cout << "Front element: " << q.getFront() << "\n";
         std::cout << "Rear element: " << q.getRear() << "\n";
@@ -291,18 +291,18 @@ int main()
         while ( q.getElementCount() != 0 )
         {
             std::cout << "Deleting front element: " << q.getFront() << "\n";
-            q.deleteFromFront();
+            q.dequeue();
         }
         std::cout << "Queue is now empty.\n";
 
         //$ Test 7: Attempt to delete from an empty queue (Underflow)
         // std::cout << "\nTest 7: Attempting to delete from an empty queue (should throw an exception)...\n";
-        // q.deleteFromFront(); // Should throw an exception
+        // q.dequeue(); // Should throw an exception
 
         //$ Test 8: Testing copy constructor and assignment operator
         std::cout << "\nTest 8: Testing copy constructor and assignment operator...\n";
         QueueLL q2;
-        q2.insertAtRear(100).insertAtRear(200).insertAtRear(300);
+        q2.enqueue(100).enqueue(200).enqueue(300);
         std::cout << "Created a new queue q2 and inserted 100, 200, 300.\n";
 
         QueueLL q3(q2); // Copy constructor

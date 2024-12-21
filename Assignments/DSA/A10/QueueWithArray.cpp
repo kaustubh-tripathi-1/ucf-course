@@ -96,7 +96,7 @@ class Queue
 
         //# Efficient as no shifting is involved, we treat the Queue as circular, Time Comp. is O(1)
         //$ Inserts an element at the rear in queue
-        Queue& insertAtRear(int data);
+        Queue& enqueue(int data);
 
         //$ Returns the rear element in queue
         int getRear() const;
@@ -105,7 +105,7 @@ class Queue
         int getFront() const;
 
         //$ Delete the front element from the queue
-        Queue& deleteFront();
+        Queue& dequeue();
 
         //$ Checks queue Overflow
         bool isQueueOverflow() const;
@@ -203,7 +203,7 @@ Queue::~Queue()
 }
 
 //$ Inserts an element at the rear in queue
-Queue& Queue::insertAtRear(int data)
+Queue& Queue::enqueue(int data)
 {
     if ( queuePtr == nullptr )
         throw QueueNotCreatedException("insertion at rear");
@@ -269,7 +269,7 @@ int Queue::getFront() const
 }
 
 //$ Delete the front element from the queue
-Queue& Queue::deleteFront()
+Queue& Queue::dequeue()
 {
     if ( queuePtr == nullptr )
         throw QueueNotCreatedException("deletion at front");
@@ -355,28 +355,28 @@ int main()
 
         //$ Test 2: Insert elements into the queue
         std::cout << "\nTest 2: Inserting elements into the queue...\n";
-        q.insertAtRear(10).insertAtRear(20).insertAtRear(30).insertAtRear(40);
+        q.enqueue(10).enqueue(20).enqueue(30).enqueue(40);
         std::cout << "Inserted 10, 20, 30, and 40 into the queue.\n";
         std::cout << "Front element: " << q.getFront() << "\n";
         std::cout << "Rear element: " << q.getRear() << "\n";
 
         //$ Test 3: Test circular behavior by inserting at wrap-around
         std::cout << "\nTest 3: Testing circular behavior...\n";
-        q.insertAtRear(50); // Queue is now full
+        q.enqueue(50); // Queue is now full
         std::cout << "Inserted 50 at the rear. Queue is now full.\n";
         std::cout << "Front element: " << q.getFront() << "\n";
         std::cout << "Rear element: " << q.getRear() << "\n";
 
         //$ Test 4: Attempt to insert into a full queue (Overflow)
         // std::cout << "\nTest 4: Attempting to insert into a full queue (should throw an exception)...\n";
-        // q.insertAtRear(60);
+        // q.enqueue(60);
 
         //$ Test 5: Delete elements and observe circular movement
         std::cout << "\nTest 5: Deleting elements to test circular behavior...\n";
-        q.deleteFront();
+        q.dequeue();
         std::cout << "Deleted one element. New front: " << q.getFront() << "\n";
 
-        q.insertAtRear(60);
+        q.enqueue(60);
         std::cout << "Inserted 60 at rear after deletion.\n";
         std::cout << "Front element: " << q.getFront() << "\n";
         std::cout << "Rear element: " << q.getRear() << "\n";
@@ -390,18 +390,18 @@ int main()
         while (!q.isQueueUnderflow())
         {
             std::cout << "Deleting front element: " << q.getFront() << "\n";
-            q.deleteFront();
+            q.dequeue();
         }
         std::cout << "Queue is now empty.\n";
 
         //$ Test 8: Attempt to delete from an empty queue (Underflow)
         // std::cout << "\nTest 8: Attempting to delete from an empty queue (should throw an exception)...\n";
-        // q.deleteFront();
+        // q.dequeue();
 
         //$ Test 9: Copy constructor and assignment operator
         std::cout << "\nTest 9: Testing copy constructor and assignment operator...\n";
         Queue q2(3);
-        q2.insertAtRear(100).insertAtRear(200).insertAtRear(300);
+        q2.enqueue(100).enqueue(200).enqueue(300);
         std::cout << "Created a new queue q2 and inserted 100, 200, 300.\n";
 
         Queue q3(q2); // Copy constructor
