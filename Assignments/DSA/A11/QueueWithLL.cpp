@@ -316,9 +316,13 @@ int main()
         std::cout << "Front element of q4: " << q4.getFront() << "\n";
         std::cout << "Rear element of q4: " << q4.getRear() << "\n";
     }
-    catch (const std::runtime_error &e)
+    catch (const EmptyQueueException &e)
     {
-        std::cerr << "Caught runtime exception: " << e.what() << "\n";
+        std::cerr << "Caught Empty Queue Exception: " << e.what() << "\n";
+    }
+    catch (const QueueUnderflowException &e)
+    {
+        std::cerr << "Caught Queue Underflow Exception: " << e.what() << "\n";
     }
     catch (const std::exception &e)
     {
