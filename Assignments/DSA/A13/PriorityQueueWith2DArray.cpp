@@ -237,10 +237,14 @@ PriorityQueue::~PriorityQueue()
         ptr = nullptr;
     }
 
-    if ( front != nullptr || rear != nullptr )
+    if ( front != nullptr )
     {
         delete []front;
         front = nullptr;
+    }
+
+    if ( rear != nullptr )
+    {
         delete []rear;
         rear = nullptr;
     }
