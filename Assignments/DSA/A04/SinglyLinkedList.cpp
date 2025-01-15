@@ -81,10 +81,6 @@ class SinglyLinkedList
         //$ Default Non-Param. Constructor
         SinglyLinkedList() : start(nullptr) {}
 
-        //$ Default Param. Constructor
-        SinglyLinkedList(int data)
-        :   start(new Node(data)) {}
-
         //$ Copy Constructor
         SinglyLinkedList(const SinglyLinkedList &sll);
 
