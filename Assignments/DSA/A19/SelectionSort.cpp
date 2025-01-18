@@ -9,7 +9,7 @@ int main()
     int size = sizeof(numbers) / sizeof(numbers[0]);
 
     
-    std::cout<<"Sorting using Insertion Sort -\n\n";
+    std::cout<<"Sorting using Selection Sort -\n\n";
     std::cout<<"Array before sorting -\n";
     printArray(numbers, size);
 
