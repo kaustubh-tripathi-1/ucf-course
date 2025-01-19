@@ -109,7 +109,7 @@ void quickSort(int *array, int left, int right)
     quickSort(array, pivotIndex + 1, right);
 
     //$ For hybrid partition
-    /* int pivotIndex = hoarePartition(array, left, right);
+    /* int pivotIndex = partition(array, left, right);
     quickSort(array, left, pivotIndex - 1);
     quickSort(array, pivotIndex + 1, right); */
 
