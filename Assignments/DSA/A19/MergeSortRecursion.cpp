@@ -42,55 +42,55 @@ void printArray(int *array, int size)
 }
 
 //@ Merges the 2 sorted arrays
-void mergeArrays(int *array, int leftOfFirstArray, int rightOfFirstArray, int leftOfSecondArray, int rightOfSecondArray)
+void mergeArrays(int *array, int leftStart, int leftEnd, int rightStart, int rightEnd)
 {
 
-    int sizeOfFirstArray = rightOfFirstArray - leftOfFirstArray + 1;
-    int sizeOfSecondArray = rightOfSecondArray - leftOfSecondArray + 1;
-    int newArrayIndex = 0, newArraySize = sizeOfFirstArray + sizeOfSecondArray, indexOfFirstArray = leftOfFirstArray, indexOfSecondArray = leftOfSecondArray;
-    int *newArray = new int[newArraySize];  //& Create a temporary array for merging
+    int sizeOfFirstArray = leftEnd - leftStart + 1;
+    int sizeOfSecondArray = rightEnd - rightStart + 1;
+    int mergeIndex = 0, mergedSize = sizeOfFirstArray + sizeOfSecondArray, leftIndex = leftStart, rightIndex = rightStart;
+    int *mergedArray = new int[mergedSize];  //& Create a temporary array for merging
 
     //& Merge in a sorted manner, placing the smaller value first in the merged array
-    while ( indexOfFirstArray <= rightOfFirstArray && indexOfSecondArray <= rightOfSecondArray  )
+    while ( leftIndex <= leftEnd && rightIndex <= rightEnd  )
     {
-        if ( array[indexOfFirstArray] < array[indexOfSecondArray]  )
+        if ( array[leftIndex] < array[rightIndex]  )
         {
-            newArray[newArrayIndex] = array[indexOfFirstArray];
-            indexOfFirstArray++;
+            mergedArray[mergeIndex] = array[leftIndex];
+            leftIndex++;
         }
         else
         {
-            newArray[newArrayIndex] = array[indexOfSecondArray];
-            indexOfSecondArray++;
+            mergedArray[mergeIndex] = array[rightIndex];
+            rightIndex++;
         }
-        newArrayIndex++;
+        mergeIndex++;
     }
 
     //& Copy the rest of the values of left sub-array (if left)
-    while ( indexOfFirstArray <= rightOfFirstArray )
+    while ( leftIndex <= leftEnd )
     {
-        newArray[newArrayIndex] = array[indexOfFirstArray];
-        indexOfFirstArray++;
-        newArrayIndex++;
+        mergedArray[mergeIndex] = array[leftIndex];
+        leftIndex++;
+        mergeIndex++;
     }
 
     //& Copy the rest of the values of right sub-array (if left)
-    while ( indexOfSecondArray <= rightOfSecondArray )
+    while ( rightIndex <= rightEnd )
     {
-        newArray[newArrayIndex] = array[indexOfSecondArray];
-        indexOfSecondArray++;
-        newArrayIndex++;
+        mergedArray[mergeIndex] = array[rightIndex];
+        rightIndex++;
+        mergeIndex++;
     }
 
-    int left = leftOfFirstArray;
+    int left = leftStart;
 
     //& Copy the merged array values to the original sub-array
-    for ( newArrayIndex = 0 ; newArrayIndex < newArraySize && left <= rightOfSecondArray ; newArrayIndex++, left++ )
+    for ( mergeIndex = 0 ; mergeIndex < mergedSize && left <= rightEnd ; mergeIndex++, left++ )
     {
-        array[left] = newArray[newArrayIndex];
+        array[left] = mergedArray[mergeIndex];
     }
 
-    delete newArray;    //& Delete the temporary merged array
+    delete mergedArray;    //& Delete the temporary merged array
     
 }
 
@@ -100,7 +100,7 @@ void mergeSort(int *array, int left, int right)
     if ( left >= right || left < 0 || right < 0 )
         return;
 
-    int middle = ( left + right ) / 2;
+    int middle = ( left + ( right - left) ) / 2;    //& Prevents integer range overflow for large index values
 
     mergeSort( array, left, middle );   //& Recursive call for left sub-array
     mergeSort( array, middle + 1, right );  //& Recursive call for right sub-array
