@@ -54,33 +54,18 @@ void mergeArrays(int *array, int leftStart, int leftEnd, int rightStart, int rig
     while ( leftIndex <= leftEnd && rightIndex <= rightEnd  )
     {
         if ( array[leftIndex] < array[rightIndex]  )
-        {
-            mergedArray[mergeIndex] = array[leftIndex];
-            leftIndex++;
-        }
+            mergedArray[mergeIndex++] = array[leftIndex++];
         else
-        {
-            mergedArray[mergeIndex] = array[rightIndex];
-            rightIndex++;
-        }
-        mergeIndex++;
+            mergedArray[mergeIndex++] = array[rightIndex++];
     }
 
     //& Copy the rest of the values of left sub-array (if left)
     while ( leftIndex <= leftEnd )
-    {
-        mergedArray[mergeIndex] = array[leftIndex];
-        leftIndex++;
-        mergeIndex++;
-    }
+        mergedArray[mergeIndex++] = array[leftIndex++];
 
     //& Copy the rest of the values of right sub-array (if left)
     while ( rightIndex <= rightEnd )
-    {
-        mergedArray[mergeIndex] = array[rightIndex];
-        rightIndex++;
-        mergeIndex++;
-    }
+        mergedArray[mergeIndex++] = array[rightIndex++];
 
     int left = leftStart;
 
@@ -90,7 +75,7 @@ void mergeArrays(int *array, int leftStart, int leftEnd, int rightStart, int rig
         array[left] = mergedArray[mergeIndex];
     }
 
-    delete mergedArray;    //& Delete the temporary merged array
+    delete[] mergedArray;    //& Delete the temporary merged array
     
 }
 
