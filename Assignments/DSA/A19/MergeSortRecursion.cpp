@@ -100,7 +100,7 @@ void mergeSort(int *array, int left, int right)
     if ( left >= right || left < 0 || right < 0 )
         return;
 
-    int middle = ( left + ( right - left) ) / 2;    //& Prevents integer range overflow for large index values
+    int middle =  left + ( right - left) / 2;    //& Prevents integer range overflow for large index values
 
     mergeSort( array, left, middle );   //& Recursive call for left sub-array
     mergeSort( array, middle + 1, right );  //& Recursive call for right sub-array
