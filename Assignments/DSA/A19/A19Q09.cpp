@@ -66,12 +66,30 @@ class Employee
 
 };
 
+int nameCompare(const std::string &name1, const std::string &name2) 
+{
+    size_t minLength = std::min(name1.length(), name2.length());
+
+    for (size_t i = 0; i < minLength; i++) 
+    {
+        if (name1[i] < name2[i]) return -1;  // name1 comes first
+        if (name1[i] > name2[i]) return 1;   // name2 comes first
+    }
+
+    // If common part is same, shorter name comes first
+    if (name1.length() < name2.length()) return -1;
+    if (name1.length() > name2.length()) return 1;
+    
+    return 0; // Both are the same
+}
+
 int hoarePartition(Employee *eArray, int left, int right)
 {
-    std::string pivot = eArray[left].empName;
+    std::string &pivot = eArray[left].empName;
     int leftPtr = left-1, rightPtr = right+1;
 
-    while ( true )
+    //& Using Pre-defined overloaded operator < and > to compare names
+    /* while ( true )
     {
         do
         {
@@ -82,6 +100,25 @@ int hoarePartition(Employee *eArray, int left, int right)
         {
             rightPtr--;
         } while ( pivot < eArray[rightPtr].empName );
+
+        if ( leftPtr >= rightPtr)
+            return rightPtr;
+
+        std::swap(eArray[leftPtr], eArray[rightPtr]);
+    } */
+
+    //& Using a separate method to compare names
+    while ( true )
+    {
+        do
+        {
+            leftPtr++;
+        } while ( nameCompare(eArray[leftPtr].empName, pivot) == -1 );
+
+        do
+        {
+            rightPtr--;
+        } while ( nameCompare(eArray[rightPtr].empName, pivot) == 1 );
 
         if ( leftPtr >= rightPtr)
             return rightPtr;
