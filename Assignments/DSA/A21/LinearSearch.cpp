@@ -1,7 +1,7 @@
 #include<iostream>
 #include<vector>
 
-int linearSearch(std::vector<int> &nums, int target)
+size_t linearSearch(const std::vector<int> &nums, int target)
 {
     for ( size_t index = 0 ; index < nums.size() ; index++)
     {
@@ -18,7 +18,7 @@ int main()
                     54 ,564 ,42, 65, -32443, 43, -214, 0};    
 
     int target = 42;
-    int result = linearSearch(nums, target);
+    size_t result = linearSearch(nums, target);
 
     if ( result != -1 )
         std::cout<<"The target element "<<target<<" is present in the data set and has index : "<<result<<"\n";
