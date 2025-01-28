@@ -172,7 +172,7 @@ int main()
 
         quickSort(employees, 0, 9);
         
-        std::cout<<"Employees before sorting (quick sort) based on names :\n\n";
+        std::cout<<"Employees after sorting (quick sort) based on names :\n\n";
         for ( int i = 0 ; i < 10 ; i++)
         {
             employees[i].printEmployee();
