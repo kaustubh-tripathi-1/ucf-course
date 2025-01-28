@@ -50,7 +50,7 @@ int hoarePartition(int *array, int left, int right)
     int pivot = array[left];
     int leftPtr = left - 1, rightPtr = right + 1;
 
-    while ( leftPtr < rightPtr )
+    while ( true )
     {
         do
         {
@@ -69,7 +69,6 @@ int hoarePartition(int *array, int left, int right)
 
     }
 
-    return 0;
 }
 
 //@ My Hybird logic between lomuto and hoare partition 
