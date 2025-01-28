@@ -42,12 +42,34 @@ void printArray(int *array, int size)
     std::cout<<"\n";
 }
 
+//@ Function to select the pivot using the Median-of-Three method
+int medianOfThree(int *arr, int left, int right)  
+{
+    int mid = left + (right - left) / 2;
+
+    // Arrange [arr[left], arr[mid], arr[right]] in sorted order
+    if (arr[left] > arr[mid])
+        std::swap(arr[left], arr[mid]);
+
+    if (arr[left] > arr[right])
+        std::swap(arr[left], arr[right]);
+
+    if (arr[mid] > arr[right])
+        std::swap(arr[mid], arr[right]);
+
+    // The median is now at `arr[mid]`, move it to `arr[left]`
+    std::swap(arr[mid], arr[left]);
+
+    return arr[left];  // Return pivot
+}
+
 //@ Helper Function for Quick Sort that partitions the array, placing the 1st element at its right position
 //$ Hoare's partition which is best
 int hoarePartition(int *array, int left, int right)
 {
 
-    int pivot = array[left];
+    // int pivot = array[left];    //$ Pivot is always the 1st element
+    int pivot = medianOfThree(array, left, right);  //$ Selecting median of left, middle and right as pivot
     int leftPtr = left - 1, rightPtr = right + 1;
 
     while ( true )
@@ -76,7 +98,7 @@ int partition(int *array, int left, int right)
 {
 
     int pivot = array[left];
-    int leftPtr = left /* - 1 */, rightPtr = right /* + 1 */;
+    int leftPtr = left , rightPtr = right ;
 
     while ( leftPtr < rightPtr )
     {
@@ -92,7 +114,8 @@ int partition(int *array, int left, int right)
         std::swap( array[leftPtr], array[rightPtr] );
 
     }
-    return 0;
+
+    return 0;   //& Unreachable code to avoid compiler warning
 
 }
 
