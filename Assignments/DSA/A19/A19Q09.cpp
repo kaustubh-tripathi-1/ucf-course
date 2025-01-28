@@ -1,5 +1,8 @@
-#include<iostream>
+//@ Using vector instead of raw pointers
+/* #include<iostream>
 #include<string>
+#include<stdlib.h>
+#include<stdexcept>
 
 class Employee
 {
@@ -13,18 +16,7 @@ class Employee
 
         Employee(int empID = 0, const std::string &name = "New Joinee", double empSalary = 0)
         {
-
-            if ( empID < 0  )
-                throw std::invalid_argument("Employee ID can't be negative!\n");
-            if ( name.empty() )
-                throw std::invalid_argument("Invalid Employee name!\n");
-            if ( empSalary < 0 )
-                throw std::invalid_argument("Employee salary can't be negative!\n");
-
-            this->empID = empID;
-            this->empName = name;
-            this->empSalary = empSalary;
-            
+            setEmployee(empID, name, empSalary);
         }
 
         Employee(const Employee &emp)
@@ -50,6 +42,11 @@ class Employee
             return *this;
         }
 
+        double getSalary() const 
+        { 
+            return empSalary; 
+        }
+
         std::string getName() const
         {
             return empName;
@@ -62,81 +59,69 @@ class Employee
                         <<"E Salary : "<<empSalary<<"\n\n";
         }
 
-        friend int hoarePartition(Employee *eArray, int left, int right);
+        Employee& operator=(const Employee &emp)
+        {
+            if ( this == &emp )
+                return *this;
+
+            this->empID = emp.empID;
+            this->empName = emp.empName;
+            this->empSalary = emp.empSalary;
+
+            return *this;
+        }
 
 };
 
-int nameCompare(const std::string &name1, const std::string &name2) 
+void merge(Employee *eArray, int leftStart, int leftEnd, int rightStart, int rightEnd )
 {
-    size_t minLength = std::min(name1.length(), name2.length());
+    int leftIndex = leftStart, rightIndex = rightStart;
+    int sizeOfFirstArray = leftEnd - leftStart + 1;
+    int sizeOfSecondArray = rightEnd - rightStart + 1;
+    int mergedSize = sizeOfFirstArray + sizeOfSecondArray;
 
-    for (size_t i = 0; i < minLength; i++) 
+    Employee *mergedArray = new Employee[mergedSize];
+    int mergedIndex = 0;
+
+    while ( leftIndex <= leftEnd && rightIndex <= rightEnd )
     {
-        if (name1[i] < name2[i]) return -1;  // name1 comes first
-        if (name1[i] > name2[i]) return 1;   // name2 comes first
+        if ( eArray[leftIndex].getSalary() < eArray[rightIndex].getSalary() )
+            mergedArray[mergedIndex++] = eArray[leftIndex++];
+        else
+            mergedArray[mergedIndex++] = eArray[rightIndex++];
     }
 
-    // If common part is same, shorter name comes first
-    if (name1.length() < name2.length()) return -1;
-    if (name1.length() > name2.length()) return 1;
-    
-    return 0; // Both are the same
-}
-
-int hoarePartition(Employee *eArray, int left, int right)
-{
-    std::string &pivot = eArray[left].empName;
-    int leftPtr = left-1, rightPtr = right+1;
-
-    //& Using Pre-defined overloaded operator < and > to compare names
-    /* while ( true )
+    while ( leftIndex <= leftEnd )
     {
-        do
-        {
-            leftPtr++;
-        } while ( pivot > eArray[leftPtr].empName );
-
-        do
-        {
-            rightPtr--;
-        } while ( pivot < eArray[rightPtr].empName );
-
-        if ( leftPtr >= rightPtr)
-            return rightPtr;
-
-        std::swap(eArray[leftPtr], eArray[rightPtr]);
-    } */
-
-    //& Using a separate method to compare names
-    while ( true )
-    {
-        do
-        {
-            leftPtr++;
-        } while ( nameCompare(eArray[leftPtr].empName, pivot) == -1 );
-
-        do
-        {
-            rightPtr--;
-        } while ( nameCompare(eArray[rightPtr].empName, pivot) == 1 );
-
-        if ( leftPtr >= rightPtr)
-            return rightPtr;
-
-        std::swap(eArray[leftPtr], eArray[rightPtr]);
+        mergedArray[mergedIndex++] = eArray[leftIndex++];
     }
 
+    while ( rightIndex <= rightEnd )
+    {
+        mergedArray[mergedIndex++] = eArray[rightIndex++];
+    }
+
+    int left = leftStart;
+
+    for ( mergedIndex = 0 ; mergedIndex < mergedSize && left <= rightEnd ; left++, mergedIndex++)
+    {
+        eArray[left] = mergedArray[mergedIndex];
+    }
+
+    delete[] mergedArray;
 }
 
-void quickSort(Employee *eArray, int left, int right)
+void mergeSort(Employee *eArray, int left, int right)
 {
     if ( left >= right )
         return;
 
-    int pivotIndex = hoarePartition(eArray, left, right);
+    int middle = left + (right - left ) / 2;
 
-    quickSort(eArray, left, pivotIndex);
-    quickSort(eArray, pivotIndex+1, right);
+    mergeSort(eArray, left, middle);
+    mergeSort(eArray, middle + 1, right);
+
+    merge(eArray, left, middle, middle + 1, right);
 }
 
 int main()
@@ -157,22 +142,22 @@ int main()
                                 "Abhijeet Malik"                    
                             };
 
-        double eSalary;
+        srand(time(0));
         int i, eID;
-        for ( i = 0, eID = 1, eSalary = 100000 ; i < 10 ; i++, eID++, eSalary-=1000 )
+        for ( i = 0, eID = 1 ; i < 10 ; i++, eID++ )
         {
-            employees[i].setEmployee(eID, names[i], eSalary);
+            employees[i].setEmployee(eID, names[i], rand() % 100001);
         }
 
-        std::cout<<"Employees before sorting (quick sort) based on names :\n\n";
+        std::cout<<"Employees before sorting (merge sort) based on salaries :\n\n";
         for ( int i = 0 ; i < 10 ; i++)
         {
             employees[i].printEmployee();
         }
 
-        quickSort(employees, 0, 9);
+        mergeSort(employees, 0, 9);
         
-        std::cout<<"Employees before sorting (quick sort) based on names :\n\n";
+        std::cout<<"Employees after sorting (merge sort) based on salaries :\n\n";
         for ( int i = 0 ; i < 10 ; i++)
         {
             employees[i].printEmployee();
@@ -183,6 +168,114 @@ int main()
     catch(std::exception &e)
     {
         std::cout<<"Caught Exception :"<<e.what()<<"\n";
+    }
+
+    std::cin.get();
+    return 0;
+} */
+
+//@ Using vector instead of raw pointers
+#include <iostream>
+#include <vector>
+#include <string>
+#include <stdexcept>
+#include <ctime>
+
+class Employee
+{
+    private:
+        int empID;
+        std::string empName;
+        double empSalary;
+
+    public:
+        Employee(int empID = 0, const std::string &name = "New Joinee", double empSalary = 0)
+        {
+            setEmployee(empID, name, empSalary);
+        }
+
+        Employee& setEmployee(int empID, const std::string &name, double empSalary)
+        {
+            if (empID < 0) throw std::invalid_argument("Employee ID can't be negative!");
+            if (name.empty()) throw std::invalid_argument("Invalid Employee name!");
+            if (empSalary < 0) throw std::invalid_argument("Employee salary can't be negative!");
+
+            this->empID = empID;
+            this->empName = name;
+            this->empSalary = empSalary;
+            return *this;
+        }
+
+        double getSalary() const { return empSalary; }
+        std::string getName() const { return empName; }
+
+        void printEmployee() const
+        {
+            std::cout << "E ID: " << empID << "\n"
+                      << "E Name: " << empName << "\n"
+                      << "E Salary: " << empSalary << "\n\n";
+        }
+};
+
+// Merge function
+void merge(std::vector<Employee> &eArray, int leftStart, int leftEnd, int rightStart, int rightEnd)
+{
+    std::vector<Employee> mergedArray;
+    int leftIndex = leftStart, rightIndex = rightStart;
+
+    while (leftIndex <= leftEnd && rightIndex <= rightEnd)
+    {
+        if (eArray[leftIndex].getSalary() < eArray[rightIndex].getSalary())
+            mergedArray.push_back(eArray[leftIndex++]);
+        else
+            mergedArray.push_back(eArray[rightIndex++]);
+    }
+
+    while (leftIndex <= leftEnd) mergedArray.push_back(eArray[leftIndex++]);
+    while (rightIndex <= rightEnd) mergedArray.push_back(eArray[rightIndex++]);
+
+    for (int i = 0; i < mergedArray.size(); i++)
+        eArray[leftStart + i] = mergedArray[i];
+}
+
+// Merge Sort Function
+void mergeSort(std::vector<Employee> &eArray, int left, int right)
+{
+    if (left >= right) return;
+
+    int middle = left + (right - left) / 2;
+    mergeSort(eArray, left, middle);
+    mergeSort(eArray, middle + 1, right);
+    merge(eArray, left, middle, middle + 1, right);
+}
+
+// Main Function
+int main()
+{
+    try
+    {
+        std::vector<Employee> employees;
+        std::string names[] = {
+            "Kaustubh Tripathi", "Shyam Tripathi", "Rashmi Tripathi",
+            "Nakshatra Gupta", "Thiya Sahu", "Kushagra Sahu",
+            "Nidhi Sahu", "Amit Sahu", "Sanyam Panwar", "Abhijeet Malik"
+        };
+
+        srand(time(0));
+        for (int i = 0; i < 10; i++)
+            employees.emplace_back(i + 1, names[i], rand() % 100001);
+
+        std::cout << "Employees before sorting (merge sort) based on salary:\n\n";
+        for (const auto &e : employees) e.printEmployee();
+
+        mergeSort(employees, 0, employees.size() - 1);
+
+        std::cout << "Employees after sorting (merge sort) based on salary:\n\n";
+        for (const auto &e : employees) e.printEmployee();
+    }
+    catch (std::exception &e)
+    {
+        std::cerr << "Caught Exception: " << e.what() << "\n";
     }
 
     std::cin.get();
