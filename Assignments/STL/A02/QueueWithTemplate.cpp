@@ -1,0 +1,351 @@
+#include<iostream>
+#include<string>
+
+//@ Exception classes
+
+//$ Queue Exceptions Base Class
+class QueueExceptions : public std::exception
+{
+    private:
+        std::string message;
+
+    public:
+
+        QueueExceptions(const std::string &msg) : message(msg) {}
+
+        virtual const char* what() const noexcept override
+        {
+            return message.c_str();
+        }
+
+};
+
+//@ Queue Specific Exception Child Classes
+
+class EmptyQueueException : public QueueExceptions
+{
+    public:
+        EmptyQueueException() : QueueExceptions("Error : Queue is Empty.") {}
+
+};
+
+class QueueUnderflowException : public QueueExceptions
+{
+    public:
+        QueueUnderflowException() : QueueExceptions("Error : Queue Underflow. Can't delete from an Empty Queue.") {}
+
+};
+
+template <typename DT>
+class QueueLL;
+
+//@ Node class
+template <typename DT>
+class Node
+{
+    private:
+
+        DT data;
+        Node *next;
+
+        friend class QueueLL<DT>;
+
+    public :
+
+        //$ Default Non-Param. Constructor
+        Node() : data(0), next(nullptr) {}
+
+        //$ Default Param. Constructor
+        Node(DT data) : data(data), next(nullptr) {}
+
+};
+
+//@ Queue with Singly Linked List
+template <typename DT>
+class QueueLL
+{
+    private :
+
+        Node<DT> *front, *rear;
+
+    public :
+        
+        //$ Default Constructor
+        QueueLL() : front(nullptr), rear(nullptr) {}
+
+        //$ Copy Constructor
+        QueueLL( const QueueLL<DT> &q);
+
+        //$ Copy Assignment Op.
+        QueueLL<DT>& operator=( const QueueLL<DT> &q);
+
+        //$ Destructor
+        ~QueueLL();
+
+        //$ Inserts an element at the rear in the queue
+        QueueLL<DT>& enqueue(DT data);
+
+        //$ Returns the rear element
+        DT getRear() const;
+
+        //$ Returns the front element
+        DT getFront() const;
+
+        //$ Deletes an element from the front in the queue
+        QueueLL<DT>& dequeue();
+
+        //$ Returns the element count in the queue
+        int getElementCount();
+
+};
+
+//$ Copy Constructor
+template <typename DT>
+QueueLL<DT>::QueueLL( const QueueLL<DT> &q )
+{
+    if (q.front == nullptr && q.rear == nullptr )
+    {
+        this->front = nullptr;
+        this->rear = nullptr;
+        return;
+    }
+
+    // Initialize the first node
+    Node<DT> *traverseOtherQueue = q.front;
+    this->front = new Node<DT>(traverseOtherQueue->data);
+
+    // Traverse and copy remaining nodes
+    Node<DT> *traverseThisQueue = this->front; // Current node in the new list
+    traverseOtherQueue = traverseOtherQueue->next;
+
+    while ( traverseOtherQueue != nullptr )
+    {
+        traverseThisQueue->next = new Node<DT>(traverseOtherQueue->data);
+        traverseThisQueue = traverseThisQueue->next;
+        traverseOtherQueue = traverseOtherQueue->next;
+    }
+
+    this->rear = traverseThisQueue;
+}
+
+//$ Copy Assignment Op.
+template <typename DT>
+QueueLL<DT>& QueueLL<DT>::operator=( const QueueLL<DT> &q )
+{
+    //& Self-Assignment Check
+    if ( this == &q )
+        return *this;
+
+    //& Delete existing list
+    while( this->front != nullptr )
+    {
+        Node<DT> *temp = front->next;
+        front = front->next;
+        delete temp;
+    }
+    this->rear = nullptr;
+
+    if (q.front == nullptr && q.rear == nullptr )
+    {
+        this->front = nullptr;
+        this->rear = nullptr;
+        return *this;
+    }
+
+    //& Initialize the first node
+    Node<DT> *traverseOtherQueue = q.front;
+    this->front = new Node<DT>(traverseOtherQueue->data);
+
+    //& Traverse and copy remaining nodes
+    Node<DT> *traverseThisQueue = this->front; //& Current node in the new list
+    traverseOtherQueue = traverseOtherQueue->next;
+
+    while ( traverseOtherQueue != nullptr )
+    {
+        traverseThisQueue->next = new Node<DT>(traverseOtherQueue->data);
+        traverseThisQueue = traverseThisQueue->next;
+        traverseOtherQueue = traverseOtherQueue->next;
+    }
+
+    this->rear = traverseThisQueue;
+
+    return *this;
+}
+
+//$ Destructor
+template <typename DT>
+QueueLL<DT>::~QueueLL()
+{
+    while ( front != nullptr )
+    {
+        dequeue();
+    }
+}
+
+//$ Inserts an element at the rear in the queue
+template <typename DT>
+QueueLL<DT>& QueueLL<DT>::enqueue(DT data)
+{
+    Node<DT> *newNode = new Node(data);
+
+    if ( rear == nullptr && front == nullptr )
+    {
+        front = rear = newNode;
+        return *this;
+    }
+
+    rear->next = newNode;
+    rear = newNode;
+
+    return *this;
+}
+
+//$ Returns the rear element
+template <typename DT>
+DT QueueLL<DT>::getRear() const
+{
+    if ( rear == nullptr )
+        throw EmptyQueueException();
+
+    return rear->data;
+}
+
+//$ Returns the front element
+template <typename DT>
+DT QueueLL<DT>::getFront() const
+{
+    if ( front == nullptr )
+        throw EmptyQueueException();
+
+    return front->data;
+}
+
+//$ Deletes an element from the front in the queue
+template <typename DT>
+QueueLL<DT>& QueueLL<DT>::dequeue()
+{
+    if ( front == nullptr && rear == nullptr )
+        throw QueueUnderflowException();
+    
+    if ( front->next == nullptr && rear->next == nullptr )
+    {
+        delete front;
+        front = rear = nullptr;
+        return *this;
+    }
+
+    Node<DT> *temp = front;
+    front = front->next;
+
+    delete temp;
+
+    return *this;
+}
+
+//$ Returns the element count in the queue
+template <typename DT>
+int QueueLL<DT>::getElementCount()
+{
+    if ( front == nullptr && rear == nullptr )
+        return 0;
+
+    Node<DT> *traverse = front;
+    int count = 0;
+
+    while ( traverse != nullptr )
+    {
+        count++;
+        traverse = traverse->next;
+    }
+
+    return count;
+}
+
+int main()
+{
+    try
+    {
+        std::cout << "Starting Linked List Queue operations testing...\n";
+
+        //$ Test 1: Create a queue
+        std::cout << "\nTest 1: Creating a Linked List Queue...\n";
+        QueueLL<int> q;
+        std::cout << "Queue created successfully.\n";
+
+        //$ Test 2: Insert elements into the queue
+        std::cout << "\nTest 2: Inserting elements into the queue...\n";
+        q.enqueue(10).enqueue(20).enqueue(30).enqueue(40);
+        std::cout << "Inserted 10, 20, 30, and 40 into the queue.\n";
+        std::cout << "Front element: " << q.getFront() << "\n";
+        std::cout << "Rear element: " << q.getRear() << "\n";
+
+        //$ Test 3: Delete elements and check front and rear
+        std::cout << "\nTest 3: Deleting elements from the queue...\n";
+        q.dequeue();
+        std::cout << "Deleted one element. New front: " << q.getFront() << "\n";
+        q.dequeue();
+        std::cout << "Deleted another element. New front: " << q.getFront() << "\n";
+
+        //$ Test 4: Insert more elements
+        std::cout << "\nTest 4: Inserting more elements into the queue...\n";
+        q.enqueue(50).enqueue(60);
+        std::cout << "Inserted 50 and 60.\n";
+        std::cout << "Front element: " << q.getFront() << "\n";
+        std::cout << "Rear element: " << q.getRear() << "\n";
+
+        //$ Test 5: Count elements in the queue
+        std::cout << "\nTest 5: Counting elements in the queue...\n";
+        std::cout << "Number of elements in the queue: " << q.getElementCount() << "\n";
+
+        //$ Test 6: Empty the queue completely
+        std::cout << "\nTest 6: Emptying the queue completely...\n";
+        while ( q.getElementCount() != 0 )
+        {
+            std::cout << "Deleting front element: " << q.getFront() << "\n";
+            q.dequeue();
+        }
+        std::cout << "Queue is now empty.\n";
+
+        //$ Test 7: Attempt to delete from an empty queue (Underflow)
+        // std::cout << "\nTest 7: Attempting to delete from an empty queue (should throw an exception)...\n";
+        // q.dequeue(); // Should throw an exception
+
+        //$ Test 8: Testing copy constructor and assignment operator
+        std::cout << "\nTest 8: Testing copy constructor and assignment operator...\n";
+        QueueLL<int> q2;
+        q2.enqueue(100).enqueue(200).enqueue(300);
+        std::cout << "Created a new queue q2 and inserted 100, 200, 300.\n";
+
+        QueueLL<int> q3(q2); // Copy constructor
+        std::cout << "Copied q2 to q3 using copy constructor.\n";
+        std::cout << "Front element of q3: " << q3.getFront() << "\n";
+        std::cout << "Rear element of q3: " << q3.getRear() << "\n";
+
+        QueueLL<int> q4;
+        q4 = q2; // Copy assignment operator
+        std::cout << "Assigned q2 to q4 using copy assignment operator.\n";
+        std::cout << "Front element of q4: " << q4.getFront() << "\n";
+        std::cout << "Rear element of q4: " << q4.getRear() << "\n";
+    }
+    catch (const EmptyQueueException &e)
+    {
+        std::cerr << "Caught Empty Queue Exception: " << e.what() << "\n";
+    }
+    catch (const QueueUnderflowException &e)
+    {
+        std::cerr << "Caught Queue Underflow Exception: " << e.what() << "\n";
+    }
+    catch (const std::exception &e)
+    {
+        std::cerr << "Caught exception: " << e.what() << "\n";
+    }
+    catch (...)
+    {
+        std::cerr << "Caught an unknown exception!\n";
+    }
+
+    std::cout << "\nEnd of testing Linked List Queue operations.\n";
+
+    std::cin.get();
+    return 0;
+}
