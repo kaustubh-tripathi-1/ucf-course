@@ -61,6 +61,7 @@ int medianOfThree(int *arr, int left, int right)
     std::swap(arr[mid], arr[left]);
 
     return arr[left];  // Return pivot
+    
 }
 
 //@ Helper Function for Quick Sort that partitions the array, placing the 1st element at its right position
