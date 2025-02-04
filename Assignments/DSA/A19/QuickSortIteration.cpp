@@ -54,7 +54,6 @@ class IndexPair
         {
             return right;
         }
-
 };
 
 void printArray(int *, int);
