@@ -8,7 +8,7 @@ int main()
     std::array<int, 5>::reverse_iterator i;
 
     std::cout<<"Printing elements in reverse :\n";
-    for ( i = arr.rbegin() ; i != arr.rend() ; i++ )
+    for ( i = arr.crbegin() ; i != arr.crend() ; i++ )
     {
         std::cout<<*i<<" ";
     }
