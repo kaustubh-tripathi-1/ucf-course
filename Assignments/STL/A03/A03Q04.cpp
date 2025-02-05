@@ -116,16 +116,22 @@ void displayComplexNumbers(std::array<Complex, 5> &complexNums)
     }
 }
 
-Complex calculateSumOfComplexNumbers(std::array<Complex, 5> &complexNums)
+Complex calculateSumOfComplexNumbers(const std::array<Complex, 5> &complexNums)
 {
-    Complex temp;
+    Complex sum;
 
-    for ( int i = 0 ; i < complexNums.size() ; i++ )
+    /* for ( int i = 0 ; i < complexNums.size() ; i++ )
     {
         temp = temp + complexNums.at(i); 
+    } */
+
+    //& Can take the element by reference too in a range based for loop
+    for ( const auto &num : complexNums )
+    {
+        sum = sum + num;
     }
 
-    return temp;
+    return sum;
 }
 
 int main()
