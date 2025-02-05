@@ -1,5 +1,6 @@
 #include<iostream>
 #include<array>
+#include <numeric>
 
 int main()
 {
@@ -7,9 +8,11 @@ int main()
 
     std::array<float, 5>::iterator i;
 
-    float sum = 0.0;
+    /* float sum = 0.0;
     for ( i = arr.begin() ; i != arr.end() ; i++ )
-        sum += *i;
+        sum += *i; */
+        
+    float sum = std::accumulate(arr.begin(), arr.end(), 0.0f);
 
     std::cout<<"Average is : "<<sum/arr.size()<<"\n";
 
