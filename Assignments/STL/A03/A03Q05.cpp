@@ -1,5 +1,6 @@
 #include<iostream>
 #include<array>
+#include<algorithm>
 
 void modifiedBubbleSort(std::array<int, 10> &nums)
 {
@@ -45,7 +46,10 @@ int main()
     std::cout<<"Array before sorting :\n";
     printArray(nums);
 
-    modifiedBubbleSort(nums);
+    // modifiedBubbleSort(nums);
+
+    //& Using standard sort() algo in STL
+    std::sort(nums.begin(), nums.end());
     
     std::cout<<"Array after sorting :\n";
     printArray(nums);
