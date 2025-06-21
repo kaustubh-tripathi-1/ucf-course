@@ -415,7 +415,7 @@ CircularLinkedList& CircularLinkedList::deleteFirstNode()
     return *this;
 }
 
-//$ Deletes first Node
+//$ Deletes Last Node
 CircularLinkedList& CircularLinkedList::deleteLastNode()
 {
     if ( end == nullptr )
