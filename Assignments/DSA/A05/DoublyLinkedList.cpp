@@ -448,6 +448,14 @@ DoublyLinkedList& DoublyLinkedList::deleteSpecifiedNode(int data)
     if ( start == nullptr)
         throw EmptyLinkedListException();
 
+    // Single node in Doubly Linked List
+    if(start->data == data && !start->next)
+    {
+        delete start;
+        start = nullptr;
+        return *this;
+    }
+
     Node *traverse = start;
 
     while ( traverse != nullptr && traverse->data != data )
@@ -482,9 +490,17 @@ DoublyLinkedList& DoublyLinkedList::deleteSpecifiedNode(int data)
     if ( start == nullptr )
         throw EmptyLinkedListException();
 
+    // Single node in Doubly Linked List
+    if(start == nodeAddress && !start->next)
+    {
+        delete start;
+        start = nullptr;
+        return *this;
+    }
+        
     Node *traverse = start;
 
-    while ( traverse != nodeAddress )
+    while ( traverse && traverse != nodeAddress )
     {
         traverse = traverse->next;
     }
@@ -493,7 +509,8 @@ DoublyLinkedList& DoublyLinkedList::deleteSpecifiedNode(int data)
     {
         Node *previousNode = traverse->previous;
         Node *nextNode = traverse->next;
-        previousNode->next = nextNode;
+        if(previousNode)
+            previousNode->next = nextNode;
         nextNode->previous = previousNode;
 
         delete traverse;
